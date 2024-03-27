@@ -67,4 +67,5 @@ const si = setInterval(() => {
 setTimeout(() => {    
   clearInterval(si);
   console.log('3.1초 후에 반복실행되는 코드를 제거')
+  
 }, 3000);
