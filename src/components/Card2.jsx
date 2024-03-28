@@ -12,4 +12,4 @@ export default function Card2(props) {
       <h3>{props.person.job}</h3>    {/* 사람의 직업정보를 표시 */}
     </div>
   );
-}
+}안녕하세요
