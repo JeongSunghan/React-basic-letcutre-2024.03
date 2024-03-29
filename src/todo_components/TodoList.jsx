@@ -1,22 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../apps/App.css';
-import { FaRegTrashAlt } from "react-icons/fa";
-import { v4 as uuidv4 } from 'uuid';
 import AddTodo from './AddTodo';
 import Todo from './Todo';
 
-export default function TodoList() {
-
+export default function TodoList({ filter }) {
   /*
     text = 입력 필드에 입력된 text 저장
     toods = 할 일 목록을 저장 => 각 할 일은, id,work,status를 속성으로 가짐
  */
 
-
-  const [todos, setTodos] = useState([
-    { id: uuidv4(), work: '공부하기', status: 'active' },
-    { id: uuidv4(), work: '청소하기', status: 'active' },
-  ]);
+  const initData = readFromLocalStorage()
+  const [todos, setTodos] = useState(initData);
 
   const handleUpdate = updated =>
     setTodos(todos.map(todo => (todo.id === updated.id) ? updated : todo));
@@ -26,6 +20,11 @@ export default function TodoList() {
 
   const handleAdd = todo => setTodos([...todos, todo]);
 
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
+  const filteredTodos = getFilteredTodos(todos, filter);
   return (
     <div>
       {/* 할 일 목록을 표시하는 <ul>과 <li> 태그: todos 배열을 map 함수를 사용하여 순회하고, 
@@ -39,7 +38,7 @@ export default function TodoList() {
 
       <ul>
         {
-          todos.map(todo => (
+          filteredTodos.map(todo => (
             <Todo todo={todo} onUpdate={handleUpdate} onDelete={handleDelete} />
           ))
         }
@@ -47,4 +46,16 @@ export default function TodoList() {
       <AddTodo onAdd={handleAdd} />
     </div>
   );
+}
+
+function readFromLocalStorage() {
+  const todos = localStorage.getItem('todos');
+  console.log(todos);
+  return todos ? JSON.parse(todos) : [];
+}
+
+function getFilteredTodos(todos, filter) {
+  if (filter === 'all')
+    return todos;
+  return todos.filter(todo => todo.status === filter);
 }

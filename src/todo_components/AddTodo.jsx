@@ -5,7 +5,9 @@ import { FaRegCalendarCheck } from "react-icons/fa";
 
 //{onAdd} props 객체에서 직접 하나 이상의 속성을 추출, 별도의 변수 선언하지 않고 해당 속성 바로 사용
 export default function AddTodo({ onAdd }) {      
+  
   const [text, setText] = useState('');
+
   const handleChange = (event) => setText(event.target.value);
   //e.printStackTrace 와 같은 기능
   const handleSubmit = (e)  => {
