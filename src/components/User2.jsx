@@ -23,13 +23,16 @@ export default function User() {
     const exitUser = users.find(user => user.id == form.id);    //users라는 array를 순회
     const newUsers = [];
     if (exitUser) {
-      for (let user of users)
-        if (user.id == form.id)
-          newUsers.push(form);
-        else {
-          newUsers.push(user);
-          setUsers(newUsers);
-        }
+
+      //3.29 refactoring = user.id가 form.id와 같으면 form을 주고 아니면 user, 아래의 for문을 없애도 된다
+      setUsers(users.map (user => user.id == form.id ?  form : user))
+      // for (let user of users)
+      //   if (user.id == form.id)
+      //     newUsers.push(form);
+      //   else {
+      //     newUsers.push(user);
+      //     setUsers(newUsers);
+      //   }
     }
     else
       setUsers([...users, form]); // 현재 폼 데이터를 users 배열에 추가
