@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import '../apps/App.css';
 import AddTodo from './AddTodo';
 import Todo from './Todo';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ToggleButton from 'react-bootstrap/ToggleButton'
 
 export default function TodoList({ filter }) {
   /*
@@ -26,7 +29,7 @@ export default function TodoList({ filter }) {
 
   const filteredTodos = getFilteredTodos(todos, filter);
   return (
-    <div>
+    <div className="todo-list-container">
       {/* 할 일 목록을 표시하는 <ul>과 <li> 태그: todos 배열을 map 함수를 사용하여 순회하고, 
       각 할 일에 대한 체크박스, 내용, 삭제 버튼을 표시  => form 태그에 추가*/}
 
@@ -36,12 +39,10 @@ export default function TodoList({ filter }) {
           4. handleAdd = 입력 필드에 텍스트를 입력할 때 text 상태를 업데이트        
         */}
 
-      <ul>
-        {
-          filteredTodos.map(todo => (
-            <Todo todo={todo} onUpdate={handleUpdate} onDelete={handleDelete} />
-          ))
-        }
+      <ul className="todo-list" style={{ listStyle: 'none', display: 'inline-grid' }}>
+        {filteredTodos.map(todo => (
+          <Todo todo={todo} onUpdate={handleUpdate} onDelete={handleDelete} key={todo.id} />
+        ))}
       </ul>
       <AddTodo onAdd={handleAdd} />
     </div>
